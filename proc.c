@@ -91,6 +91,7 @@ found:
   p->state = EMBRYO;
   p->pid = nextpid++;
   p->nclone = 0;
+  p->nice = 0;
   p->sleepticks = -1;
   p->chan = 0;
 
@@ -393,13 +394,14 @@ wait(void)
 void
 scheduler(void)
 {
-  struct proc *p;
+  struct proc *p, *p1;
   struct cpu *c = mycpu();
   c->proc = 0;
   
   for(;;){
     // Enable interrupts on this processor.
     sti();
+    struct proc *meanest;
 
     // Loop over process table looking for process to run.
     acquire(&ptable.lock);
@@ -407,9 +409,17 @@ scheduler(void)
       if(p->state != RUNNABLE)
         continue;
 
+      meanest = p;
+      for(p1 = ptable.proc; p1 < &ptable.proc[NPROC]; p1++){
+	        if(p1->state != RUNNABLE)
+	          continue;
+	        if(meanest->nice > p1->nice)   //larger value, lower priority
+	          meanest = p1;
+      }
       // Switch to chosen process.  It is the process's job
       // to release ptable.lock and then reacquire it
       // before jumping back to us.
+      p = meanest;
       c->proc = p;
       switchuvm(p);
       p->state = RUNNING;

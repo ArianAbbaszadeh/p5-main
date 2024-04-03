@@ -119,6 +119,7 @@ sys_macquire(void){
   }
   m->locked = 1;
   m->tid = myproc()->pid;
+  release(&m->lock);
   return;
 }
 
@@ -128,9 +129,24 @@ sys_mrelease(void){
   if((argptr(0, (void*)&m, sizeof(*m))) < 0){
     return;
   }
+  acquire(&m->lock);
   m->locked = 0;
-  m->tid = -1;
+  m->tid = 0;
   wakeup(m);
-  return;
+  release(&m->lock);
 }
 
+int sys_nice(void) {
+  int inc;
+  if (argint(0, &inc) < 0)
+    return -1;
+  
+  int nice = myproc()->nice + inc;
+  if (nice < -20)
+    nice = -20;
+  else if (nice > 19)
+    nice = 19;
+  
+  myproc()->nice = nice;
+  return 0;
+}
