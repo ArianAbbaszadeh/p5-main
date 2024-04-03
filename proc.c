@@ -94,6 +94,10 @@ found:
   p->nice = 0;
   p->sleepticks = -1;
   p->chan = 0;
+  for(int i = 0; i < 16; i++){
+    p->holding[i] = (mutex*)-1;
+  }   
+  p->owner = (mutex*) -1;
 
   release(&ptable.lock);
 
@@ -383,6 +387,25 @@ wait(void)
   }
 }
 
+int
+niceify(struct proc* proc){
+    int nice = proc->nice;
+    if(proc->owner == (mutex*)-1){
+        return nice;
+    }
+    mutex *lock = proc->owner;
+    for(struct proc* p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+        if(p->state != RUNNABLE)
+            continue;
+        for(int i = 0; i < 16; i++){
+            if(p->holding[i] != (mutex*) -1 && p->holding[i] == lock && p->nice > nice){
+                nice = p->nice;
+                break;
+            }
+        }
+    }
+    return nice;
+}
 //PAGEBREAK: 42
 // Per-CPU process scheduler.
 // Each CPU calls scheduler() after setting itself up.
@@ -397,7 +420,6 @@ scheduler(void)
   struct proc *p, *p1;
   struct cpu *c = mycpu();
   c->proc = 0;
-  
   for(;;){
     // Enable interrupts on this processor.
     sti();
@@ -413,7 +435,7 @@ scheduler(void)
       for(p1 = ptable.proc; p1 < &ptable.proc[NPROC]; p1++){
 	        if(p1->state != RUNNABLE)
 	          continue;
-	        if(meanest->nice > p1->nice)   //larger value, lower priority
+	        if(meanest->nice > p1->nice)   
 	          meanest = p1;
       }
       // Switch to chosen process.  It is the process's job

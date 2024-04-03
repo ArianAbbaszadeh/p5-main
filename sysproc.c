@@ -7,7 +7,7 @@
 #include "mmu.h"
 #include "proc.h"
 #include "spinlock.h"
-#include "mutex.h"
+
 int
 sys_fork(void)
 {
@@ -109,16 +109,30 @@ sys_uptime(void)
 void 
 sys_macquire(void){
   mutex* m;
+  struct proc* p = myproc();
   if((argptr(0, (void*)&m, sizeof(*m))) < 0){
     return;
   }
   acquire(&m->lock);
+  if(m->locked){
+    for(int i = 0; i < 16; i++){
+      if(p->holding[i] == (mutex*)-1){
+        p->holding[i] = m;
+      }
+    }
+  }
   while (m->locked)
   {
     sleep(m, &m->lock);
   }
+  
   m->locked = 1;
-  m->tid = myproc()->pid;
+  p->owner = m;
+  for(int i = 0; i < 16; i++){
+    if(p->holding[i] == m){
+       p->holding[i] = (mutex*)-1;
+    }
+  }
   release(&m->lock);
   return;
 }
@@ -131,7 +145,7 @@ sys_mrelease(void){
   }
   acquire(&m->lock);
   m->locked = 0;
-  m->tid = 0;
+  myproc()->owner = (mutex*)-1;
   wakeup(m);
   release(&m->lock);
 }

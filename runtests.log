@@ -60,15 +60,15 @@ objdump -t kernel | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > kernel.sym
 dd if=/dev/zero of=xv6.img count=10000
 10000+0 records in
 10000+0 records out
-5120000 bytes (5.1 MB, 4.9 MiB) copied, 0.019462 s, 263 MB/s
+5120000 bytes (5.1 MB, 4.9 MiB) copied, 0.0872236 s, 58.7 MB/s
 dd if=bootblock of=xv6.img conv=notrunc
 1+0 records in
 1+0 records out
-512 bytes copied, 0.000190522 s, 2.7 MB/s
+512 bytes copied, 7.1775e-05 s, 7.1 MB/s
 dd if=kernel of=xv6.img seek=1 conv=notrunc
-414+1 records in
-414+1 records out
-212116 bytes (212 kB, 207 KiB) copied, 0.00056195 s, 377 MB/s
+425+1 records in
+425+1 records out
+217796 bytes (218 kB, 213 KiB) copied, 0.00164313 s, 133 MB/s
 gcc -Werror -Wall -o mkfs mkfs.c
 gcc -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -MD -ggdb -m32 -Werror -fno-omit-frame-pointer -fno-stack-protector -fno-pie -no-pie   -c -o ulib.o ulib.c
 gcc -m32 -gdwarf-2 -Wa,-divide   -c -o usys.o usys.S
@@ -141,7 +141,7 @@ objdump -S _multithread > multithread.asm
 objdump -t _multithread | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > multithread.sym
 ./mkfs fs.img README _cat _echo _forktest _grep _init _kill _ln _ls _mkdir _rm _sh _stressfs _usertests _wc _zombie _multithread 
 nmeta 59 (boot, super, log blocks 30 inode blocks 26, bitmap blocks 1) blocks 941 total 1000
-balloc: first 692 blocks have been allocated
+balloc: first 691 blocks have been allocated
 balloc: write bitmap block at sector 58
 
 
@@ -159,8 +159,8 @@ Lock: Shared increment of counter by fn1 and fn2
 Running xv6 user progam /home/cs537-1/tests/P5/ctests/test_1.c
 Trying to build project using make
 make xv6.img fs.img
-/tmp/tmpxd9c52ej/p/Makefile
-/tmp/tmpxd9c52ej/p/Makefile.test
+/tmp/tmpavs7ddzc/p/Makefile
+/tmp/tmpavs7ddzc/p/Makefile.test
 make: 'xv6.img' is up to date.
 make: 'fs.img' is up to date.
 make qemu-nox CPUS=1
@@ -170,7 +170,7 @@ objdump -S _tester > tester.asm
 objdump -t _tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > tester.sym
 ./mkfs fs.img README _cat _echo _forktest _grep _init _kill _ln _ls _tester _mkdir _rm _sh _stressfs _usertests _wc _zombie _multithread 
 nmeta 59 (boot, super, log blocks 30 inode blocks 26, bitmap blocks 1) blocks 941 total 1000
-balloc: first 725 blocks have been allocated
+balloc: first 724 blocks have been allocated
 balloc: write bitmap block at sector 58
 qemu-system-i386 -nographic -drive file=fs.img,index=1,media=disk,format=raw -drive file=xv6.img,index=0,media=disk,format=raw -smp 1 -m 512 
 c[?7l[2J[0mSeaBIOS (version 1.15.0-1)
@@ -180,14 +180,13 @@ iPXE (https://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+1FF8B4A0+1FECB4A0 CA00
 Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
 
 
-Booting from Hard Disk...
-xv6...
+Booting from Hard Disk..xv6...
 cpu0: starting 0
 sb: size 1000 nblocks 941 ninodes 200 nlog 30 logstart 2 inodestart 32 bmap start 58
 init: starting sh
 $ tester
 tester
-#tester#tester#tester1#tester2#tester2000#tester000
+#tester#tester#tester#tester1#tester2#tester2000000
 
 test test_1 PASSED (1 of 1)
  (Lock: Shared increment of counter by fn1 and fn2)
@@ -203,354 +202,8 @@ Deadlock
 Running xv6 user progam /home/cs537-1/tests/P5/ctests/test_2.c
 Trying to build project using make
 make xv6.img fs.img
-/tmp/tmpxd9c52ej/p/Makefile
-/tmp/tmpxd9c52ej/p/Makefile.test
-make: 'xv6.img' is up to date.
-make: 'fs.img' is up to date.
-make qemu-nox CPUS=1
-gcc -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -MD -ggdb -m32 -Werror -fno-omit-frame-pointer -fno-stack-protector -fno-pie -no-pie   -c -o tester.o tester.c
-ld -m    elf_i386 -N -e main -Ttext 0 -o _tester tester.o ulib.o usys.o printf.o umalloc.o
-objdump -S _tester > tester.asm
-objdump -t _tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > tester.sym
-./mkfs fs.img README _cat _echo _forktest _grep _init _kill _ln _ls _tester _mkdir _rm _sh _stressfs _usertests _wc _zombie _multithread 
-nmeta 59 (boot, super, log blocks 30 inode blocks 26, bitmap blocks 1) blocks 941 total 1000
-balloc: first 727 blocks have been allocated
-balloc: write bitmap block at sector 58
-qemu-system-i386 -nographic -drive file=fs.img,index=1,media=disk,format=raw -drive file=xv6.img,index=0,media=disk,format=raw -smp 1 -m 512 
-c[?7l[2J[0mSeaBIOS (version 1.15.0-1)
-
-
-iPXE (https://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+1FF8B4A0+1FECB4A0 CA00
-Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
-
-
-Booting from Hard Disk..xv6...
-cpu0: starting 0
-sb: size 1000 nblocks 941 ninodes 200 nlog 30 logstart 2 inodestart 32 bmap start 58
-init: starting sh
-$ tester
-tester
-#tester#tester#tester1#tester2#tester#tester1#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester1fn1 holds m1
-#tester2fn2 holds m2
-#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester
-
-test test_2 PASSED (1 of 1)
- (Deadlock)
-
-starting test_3
-
-**********************************************************************
-
-Test test_3
-Lock: fn1, fn2, main all incrementing shared counter
-
-**********************************************************************
-Running xv6 user progam /home/cs537-1/tests/P5/ctests/test_3.c
-Trying to build project using make
-make xv6.img fs.img
-/tmp/tmpxd9c52ej/p/Makefile
-/tmp/tmpxd9c52ej/p/Makefile.test
-make: 'xv6.img' is up to date.
-make: 'fs.img' is up to date.
-make qemu-nox CPUS=1
-gcc -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -MD -ggdb -m32 -Werror -fno-omit-frame-pointer -fno-stack-protector -fno-pie -no-pie   -c -o tester.o tester.c
-ld -m    elf_i386 -N -e main -Ttext 0 -o _tester tester.o ulib.o usys.o printf.o umalloc.o
-objdump -S _tester > tester.asm
-objdump -t _tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > tester.sym
-./mkfs fs.img README _cat _echo _forktest _grep _init _kill _ln _ls _tester _mkdir _rm _sh _stressfs _usertests _wc _zombie _multithread 
-nmeta 59 (boot, super, log blocks 30 inode blocks 26, bitmap blocks 1) blocks 941 total 1000
-balloc: first 725 blocks have been allocated
-balloc: write bitmap block at sector 58
-qemu-system-i386 -nographic -drive file=fs.img,index=1,media=disk,format=raw -drive file=xv6.img,index=0,media=disk,format=raw -smp 1 -m 512 
-c[?7l[2J[0mSeaBIOS (version 1.15.0-1)
-
-
-iPXE (https://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+1FF8B4A0+1FECB4A0 CA00
-Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
-
-
-Booting from Hard Disk..xv6...
-cpu0: starting 0
-sb: size 1000 nblocks 941 ninodes 200 nlog 30 logstart 2 inodestart 32 bmap start 58
-init: starting sh
-$ tester
-tester
-#tester#tester#tester1#tester2#tester30000#tester00
-
-test test_3 PASSED (1 of 1)
- (Lock: fn1, fn2, main all incrementing shared counter)
-
-starting test_4
-
-**********************************************************************
-
-Test test_4
-Scheduler: Priority Order: main > fn1
-
-**********************************************************************
-Running xv6 user progam /home/cs537-1/tests/P5/ctests/test_4.c
-Trying to build project using make
-make xv6.img fs.img
-/tmp/tmpxd9c52ej/p/Makefile
-/tmp/tmpxd9c52ej/p/Makefile.test
-make: 'xv6.img' is up to date.
-make: 'fs.img' is up to date.
-make qemu-nox CPUS=1
-gcc -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -MD -ggdb -m32 -Werror -fno-omit-frame-pointer -fno-stack-protector -fno-pie -no-pie   -c -o tester.o tester.c
-ld -m    elf_i386 -N -e main -Ttext 0 -o _tester tester.o ulib.o usys.o printf.o umalloc.o
-objdump -S _tester > tester.asm
-objdump -t _tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > tester.sym
-./mkfs fs.img README _cat _echo _forktest _grep _init _kill _ln _ls _tester _mkdir _rm _sh _stressfs _usertests _wc _zombie _multithread 
-nmeta 59 (boot, super, log blocks 30 inode blocks 26, bitmap blocks 1) blocks 941 total 1000
-balloc: first 724 blocks have been allocated
-balloc: write bitmap block at sector 58
-qemu-system-i386 -nographic -drive file=fs.img,index=1,media=disk,format=raw -drive file=xv6.img,index=0,media=disk,format=raw -smp 1 -m 512 
-c[?7l[2J[0mSeaBIOS (version 1.15.0-1)
-
-
-iPXE (https://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+1FF8B4A0+1FECB4A0 CA00
-Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
-
-
-Booting from Hard Disk..xv6...
-cpu0: starting 0
-sb: size 1000 nblocks 941 ninodes 200 nlog 30 logstart 2 inodestart 32 bmap start 58
-init: starting sh
-$ tester
-tester
-#tester#tester#tester1#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester1#tester1#tester1#tester1#tester1
-
-test test_4 PASSED (1 of 1)
- (Scheduler: Priority Order: main > fn1)
-
-starting test_5
-
-**********************************************************************
-
-Test test_5
-Scheduler: Pririty Order: fn1 > main
-
-**********************************************************************
-Running xv6 user progam /home/cs537-1/tests/P5/ctests/test_5.c
-Trying to build project using make
-make xv6.img fs.img
-/tmp/tmpxd9c52ej/p/Makefile
-/tmp/tmpxd9c52ej/p/Makefile.test
-make: 'xv6.img' is up to date.
-make: 'fs.img' is up to date.
-make qemu-nox CPUS=1
-gcc -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -MD -ggdb -m32 -Werror -fno-omit-frame-pointer -fno-stack-protector -fno-pie -no-pie   -c -o tester.o tester.c
-ld -m    elf_i386 -N -e main -Ttext 0 -o _tester tester.o ulib.o usys.o printf.o umalloc.o
-objdump -S _tester > tester.asm
-objdump -t _tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > tester.sym
-./mkfs fs.img README _cat _echo _forktest _grep _init _kill _ln _ls _tester _mkdir _rm _sh _stressfs _usertests _wc _zombie _multithread 
-nmeta 59 (boot, super, log blocks 30 inode blocks 26, bitmap blocks 1) blocks 941 total 1000
-balloc: first 724 blocks have been allocated
-balloc: write bitmap block at sector 58
-qemu-system-i386 -nographic -drive file=fs.img,index=1,media=disk,format=raw -drive file=xv6.img,index=0,media=disk,format=raw -smp 1 -m 512 
-c[?7l[2J[0mSeaBIOS (version 1.15.0-1)
-
-
-iPXE (https://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+1FF8B4A0+1FECB4A0 CA00
-Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
-
-
-Booting from Hard Disk..xv6...
-cpu0: starting 0
-sb: size 1000 nblocks 941 ninodes 200 nlog 30 logstart 2 inodestart 32 bmap start 58
-init: starting sh
-$ tester
-tester
-#tester#tester#tester1#tester#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester#tester#tester#tester#tester
-
-test test_5 PASSED (1 of 1)
- (Scheduler: Pririty Order: fn1 > main)
-
-starting test_6
-
-**********************************************************************
-
-Test test_6
-Scheduler: Pririty Order: main > fn1
-
-**********************************************************************
-Running xv6 user progam /home/cs537-1/tests/P5/ctests/test_6.c
-Trying to build project using make
-make xv6.img fs.img
-/tmp/tmpxd9c52ej/p/Makefile
-/tmp/tmpxd9c52ej/p/Makefile.test
-make: 'xv6.img' is up to date.
-make: 'fs.img' is up to date.
-make qemu-nox CPUS=1
-gcc -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -MD -ggdb -m32 -Werror -fno-omit-frame-pointer -fno-stack-protector -fno-pie -no-pie   -c -o tester.o tester.c
-ld -m    elf_i386 -N -e main -Ttext 0 -o _tester tester.o ulib.o usys.o printf.o umalloc.o
-objdump -S _tester > tester.asm
-objdump -t _tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > tester.sym
-./mkfs fs.img README _cat _echo _forktest _grep _init _kill _ln _ls _tester _mkdir _rm _sh _stressfs _usertests _wc _zombie _multithread 
-nmeta 59 (boot, super, log blocks 30 inode blocks 26, bitmap blocks 1) blocks 941 total 1000
-balloc: first 724 blocks have been allocated
-balloc: write bitmap block at sector 58
-qemu-system-i386 -nographic -drive file=fs.img,index=1,media=disk,format=raw -drive file=xv6.img,index=0,media=disk,format=raw -smp 1 -m 512 
-c[?7l[2J[0mSeaBIOS (version 1.15.0-1)
-
-
-iPXE (https://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+1FF8B4A0+1FECB4A0 CA00
-Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
-
-
-Booting from Hard Disk..xv6...
-cpu0: starting 0
-sb: size 1000 nblocks 941 ninodes 200 nlog 30 logstart 2 inodestart 32 bmap start 58
-init: starting sh
-$ tester
-tester
-#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester1#tester1#tester1#tester1#tester1
-
-test test_6 PASSED (1 of 1)
- (Scheduler: Pririty Order: main > fn1)
-
-starting test_7
-
-**********************************************************************
-
-Test test_7
-Scheduler: Priority order: fn2 > main > fn1
-
-**********************************************************************
-Running xv6 user progam /home/cs537-1/tests/P5/ctests/test_7.c
-Trying to build project using make
-make xv6.img fs.img
-/tmp/tmpxd9c52ej/p/Makefile
-/tmp/tmpxd9c52ej/p/Makefile.test
-make: 'xv6.img' is up to date.
-make: 'fs.img' is up to date.
-make qemu-nox CPUS=1
-gcc -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -MD -ggdb -m32 -Werror -fno-omit-frame-pointer -fno-stack-protector -fno-pie -no-pie   -c -o tester.o tester.c
-ld -m    elf_i386 -N -e main -Ttext 0 -o _tester tester.o ulib.o usys.o printf.o umalloc.o
-objdump -S _tester > tester.asm
-objdump -t _tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > tester.sym
-./mkfs fs.img README _cat _echo _forktest _grep _init _kill _ln _ls _tester _mkdir _rm _sh _stressfs _usertests _wc _zombie _multithread 
-nmeta 59 (boot, super, log blocks 30 inode blocks 26, bitmap blocks 1) blocks 941 total 1000
-balloc: first 725 blocks have been allocated
-balloc: write bitmap block at sector 58
-qemu-system-i386 -nographic -drive file=fs.img,index=1,media=disk,format=raw -drive file=xv6.img,index=0,media=disk,format=raw -smp 1 -m 512 
-c[?7l[2J[0mSeaBIOS (version 1.15.0-1)
-
-
-iPXE (https://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+1FF8B4A0+1FECB4A0 CA00
-Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
-
-
-Booting from Hard Disk..xv6...
-cpu0: starting 0
-sb: size 1000 nblocks 941 ninodes 200 nlog 30 logstart 2 inodestart 32 bmap start 58
-init: starting sh
-$ tester
-tester
-#tester#tester#tester1#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester$ 
-
-test test_7 PASSED (1 of 1)
- (Scheduler: Priority order: fn2 > main > fn1)
-
-starting test_8
-
-**********************************************************************
-
-Test test_8
-Scheduler: Priority Order: fn2 > fn1 > main
-
-**********************************************************************
-Running xv6 user progam /home/cs537-1/tests/P5/ctests/test_8.c
-Trying to build project using make
-make xv6.img fs.img
-/tmp/tmpxd9c52ej/p/Makefile
-/tmp/tmpxd9c52ej/p/Makefile.test
-make: 'xv6.img' is up to date.
-make: 'fs.img' is up to date.
-make qemu-nox CPUS=1
-gcc -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -MD -ggdb -m32 -Werror -fno-omit-frame-pointer -fno-stack-protector -fno-pie -no-pie   -c -o tester.o tester.c
-ld -m    elf_i386 -N -e main -Ttext 0 -o _tester tester.o ulib.o usys.o printf.o umalloc.o
-objdump -S _tester > tester.asm
-objdump -t _tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > tester.sym
-./mkfs fs.img README _cat _echo _forktest _grep _init _kill _ln _ls _tester _mkdir _rm _sh _stressfs _usertests _wc _zombie _multithread 
-nmeta 59 (boot, super, log blocks 30 inode blocks 26, bitmap blocks 1) blocks 941 total 1000
-balloc: first 725 blocks have been allocated
-balloc: write bitmap block at sector 58
-qemu-system-i386 -nographic -drive file=fs.img,index=1,media=disk,format=raw -drive file=xv6.img,index=0,media=disk,format=raw -smp 1 -m 512 
-c[?7l[2J[0mSeaBIOS (version 1.15.0-1)
-
-
-iPXE (https://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+1FF8B4A0+1FECB4A0 CA00
-Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
-
-
-Booting from Hard Disk..xv6...
-cpu0: starting 0
-sb: size 1000 nblocks 941 ninodes 200 nlog 30 logstart 2 inodestart 32 bmap start 58
-init: starting sh
-$ tester
-tester
-#tester#tester#tester1#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester#tester#tester#tester#tester#tester
-
-test test_8 PASSED (1 of 1)
- (Scheduler: Priority Order: fn2 > fn1 > main)
-
-starting test_9
-
-**********************************************************************
-
-Test test_9
-Scheduler: fn1 thread priority > main thread
-
-**********************************************************************
-Running xv6 user progam /home/cs537-1/tests/P5/ctests/test_9.c
-Trying to build project using make
-make xv6.img fs.img
-/tmp/tmpxd9c52ej/p/Makefile
-/tmp/tmpxd9c52ej/p/Makefile.test
-make: 'xv6.img' is up to date.
-make: 'fs.img' is up to date.
-make qemu-nox CPUS=1
-gcc -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -MD -ggdb -m32 -Werror -fno-omit-frame-pointer -fno-stack-protector -fno-pie -no-pie   -c -o tester.o tester.c
-ld -m    elf_i386 -N -e main -Ttext 0 -o _tester tester.o ulib.o usys.o printf.o umalloc.o
-objdump -S _tester > tester.asm
-objdump -t _tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > tester.sym
-./mkfs fs.img README _cat _echo _forktest _grep _init _kill _ln _ls _tester _mkdir _rm _sh _stressfs _usertests _wc _zombie _multithread 
-nmeta 59 (boot, super, log blocks 30 inode blocks 26, bitmap blocks 1) blocks 941 total 1000
-balloc: first 724 blocks have been allocated
-balloc: write bitmap block at sector 58
-qemu-system-i386 -nographic -drive file=fs.img,index=1,media=disk,format=raw -drive file=xv6.img,index=0,media=disk,format=raw -smp 1 -m 512 
-c[?7l[2J[0mSeaBIOS (version 1.15.0-1)
-
-
-iPXE (https://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+1FF8B4A0+1FECB4A0 CA00
-Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
-
-
-Booting from Hard Disk..xv6...
-cpu0: starting 0
-sb: size 1000 nblocks 941 ninodes 200 nlog 30 logstart 2 inodestart 32 bmap start 58
-init: starting sh
-$ tester
-tester
-#tester#tester#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester#tester#tester#tester#tester
-
-test test_9 PASSED (1 of 1)
- (Scheduler: fn1 thread priority > main thread)
-
-starting test_10
-
-**********************************************************************
-
-Test test_10
-Priority inheritance
-
-**********************************************************************
-Running xv6 user progam /home/cs537-1/tests/P5/ctests/test_10.c
-Trying to build project using make
-make xv6.img fs.img
-/tmp/tmpxd9c52ej/p/Makefile
-/tmp/tmpxd9c52ej/p/Makefile.test
+/tmp/tmpavs7ddzc/p/Makefile
+/tmp/tmpavs7ddzc/p/Makefile.test
 make: 'xv6.img' is up to date.
 make: 'fs.img' is up to date.
 make qemu-nox CPUS=1
@@ -576,7 +229,354 @@ sb: size 1000 nblocks 941 ninodes 200 nlog 30 logstart 2 inodestart 32 bmap star
 init: starting sh
 $ tester
 tester
-#tester#tester#tester1#tester2#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester#tester#tester#tester#tester#test
+#tester#tester#tester#tester1#tester2#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester1fn1 holds m1
+#tester2fn2 hol#tester#tester2ds m2
+#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester
+
+test test_2 PASSED (1 of 1)
+ (Deadlock)
+
+starting test_3
+
+**********************************************************************
+
+Test test_3
+Lock: fn1, fn2, main all incrementing shared counter
+
+**********************************************************************
+Running xv6 user progam /home/cs537-1/tests/P5/ctests/test_3.c
+Trying to build project using make
+make xv6.img fs.img
+/tmp/tmpavs7ddzc/p/Makefile
+/tmp/tmpavs7ddzc/p/Makefile.test
+make: 'xv6.img' is up to date.
+make: 'fs.img' is up to date.
+make qemu-nox CPUS=1
+gcc -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -MD -ggdb -m32 -Werror -fno-omit-frame-pointer -fno-stack-protector -fno-pie -no-pie   -c -o tester.o tester.c
+ld -m    elf_i386 -N -e main -Ttext 0 -o _tester tester.o ulib.o usys.o printf.o umalloc.o
+objdump -S _tester > tester.asm
+objdump -t _tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > tester.sym
+./mkfs fs.img README _cat _echo _forktest _grep _init _kill _ln _ls _tester _mkdir _rm _sh _stressfs _usertests _wc _zombie _multithread 
+nmeta 59 (boot, super, log blocks 30 inode blocks 26, bitmap blocks 1) blocks 941 total 1000
+balloc: first 724 blocks have been allocated
+balloc: write bitmap block at sector 58
+qemu-system-i386 -nographic -drive file=fs.img,index=1,media=disk,format=raw -drive file=xv6.img,index=0,media=disk,format=raw -smp 1 -m 512 
+c[?7l[2J[0mSeaBIOS (version 1.15.0-1)
+
+
+iPXE (https://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+1FF8B4A0+1FECB4A0 CA00
+Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
+
+
+Booting from Hard Disk..xv6...
+cpu0: starting 0
+sb: size 1000 nblocks 941 ninodes 200 nlog 30 logstart 2 inodestart 32 bmap start 58
+init: starting sh
+$ tester
+tester
+#tester#tester#tester1#tester2#tester300000#tester0
+
+test test_3 PASSED (1 of 1)
+ (Lock: fn1, fn2, main all incrementing shared counter)
+
+starting test_4
+
+**********************************************************************
+
+Test test_4
+Scheduler: Priority Order: main > fn1
+
+**********************************************************************
+Running xv6 user progam /home/cs537-1/tests/P5/ctests/test_4.c
+Trying to build project using make
+make xv6.img fs.img
+/tmp/tmpavs7ddzc/p/Makefile
+/tmp/tmpavs7ddzc/p/Makefile.test
+make: 'xv6.img' is up to date.
+make: 'fs.img' is up to date.
+make qemu-nox CPUS=1
+gcc -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -MD -ggdb -m32 -Werror -fno-omit-frame-pointer -fno-stack-protector -fno-pie -no-pie   -c -o tester.o tester.c
+ld -m    elf_i386 -N -e main -Ttext 0 -o _tester tester.o ulib.o usys.o printf.o umalloc.o
+objdump -S _tester > tester.asm
+objdump -t _tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > tester.sym
+./mkfs fs.img README _cat _echo _forktest _grep _init _kill _ln _ls _tester _mkdir _rm _sh _stressfs _usertests _wc _zombie _multithread 
+nmeta 59 (boot, super, log blocks 30 inode blocks 26, bitmap blocks 1) blocks 941 total 1000
+balloc: first 723 blocks have been allocated
+balloc: write bitmap block at sector 58
+qemu-system-i386 -nographic -drive file=fs.img,index=1,media=disk,format=raw -drive file=xv6.img,index=0,media=disk,format=raw -smp 1 -m 512 
+c[?7l[2J[0mSeaBIOS (version 1.15.0-1)
+
+
+iPXE (https://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+1FF8B4A0+1FECB4A0 CA00
+Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
+
+
+Booting from Hard Disk..xv6...
+cpu0: starting 0
+sb: size 1000 nblocks 941 ninodes 200 nlog 30 logstart 2 inodestart 32 bmap start 58
+init: starting sh
+$ tester
+tester
+#tester#tester#tester#tester1#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester1#tester1#tester1#tester1#tester1#tester1
+
+test test_4 PASSED (1 of 1)
+ (Scheduler: Priority Order: main > fn1)
+
+starting test_5
+
+**********************************************************************
+
+Test test_5
+Scheduler: Pririty Order: fn1 > main
+
+**********************************************************************
+Running xv6 user progam /home/cs537-1/tests/P5/ctests/test_5.c
+Trying to build project using make
+make xv6.img fs.img
+/tmp/tmpavs7ddzc/p/Makefile
+/tmp/tmpavs7ddzc/p/Makefile.test
+make: 'xv6.img' is up to date.
+make: 'fs.img' is up to date.
+make qemu-nox CPUS=1
+gcc -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -MD -ggdb -m32 -Werror -fno-omit-frame-pointer -fno-stack-protector -fno-pie -no-pie   -c -o tester.o tester.c
+ld -m    elf_i386 -N -e main -Ttext 0 -o _tester tester.o ulib.o usys.o printf.o umalloc.o
+objdump -S _tester > tester.asm
+objdump -t _tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > tester.sym
+./mkfs fs.img README _cat _echo _forktest _grep _init _kill _ln _ls _tester _mkdir _rm _sh _stressfs _usertests _wc _zombie _multithread 
+nmeta 59 (boot, super, log blocks 30 inode blocks 26, bitmap blocks 1) blocks 941 total 1000
+balloc: first 723 blocks have been allocated
+balloc: write bitmap block at sector 58
+qemu-system-i386 -nographic -drive file=fs.img,index=1,media=disk,format=raw -drive file=xv6.img,index=0,media=disk,format=raw -smp 1 -m 512 
+c[?7l[2J[0mSeaBIOS (version 1.15.0-1)
+
+
+iPXE (https://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+1FF8B4A0+1FECB4A0 CA00
+Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
+
+
+Booting from Hard Disk..xv6...
+cpu0: starting 0
+sb: size 1000 nblocks 941 ninodes 200 nlog 30 logstart 2 inodestart 32 bmap start 58
+init: starting sh
+$ tester
+tester
+#tester#tester#tester#tester#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester#tester#tester#tester#tester
+
+test test_5 PASSED (1 of 1)
+ (Scheduler: Pririty Order: fn1 > main)
+
+starting test_6
+
+**********************************************************************
+
+Test test_6
+Scheduler: Pririty Order: main > fn1
+
+**********************************************************************
+Running xv6 user progam /home/cs537-1/tests/P5/ctests/test_6.c
+Trying to build project using make
+make xv6.img fs.img
+/tmp/tmpavs7ddzc/p/Makefile
+/tmp/tmpavs7ddzc/p/Makefile.test
+make: 'xv6.img' is up to date.
+make: 'fs.img' is up to date.
+make qemu-nox CPUS=1
+gcc -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -MD -ggdb -m32 -Werror -fno-omit-frame-pointer -fno-stack-protector -fno-pie -no-pie   -c -o tester.o tester.c
+ld -m    elf_i386 -N -e main -Ttext 0 -o _tester tester.o ulib.o usys.o printf.o umalloc.o
+objdump -S _tester > tester.asm
+objdump -t _tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > tester.sym
+./mkfs fs.img README _cat _echo _forktest _grep _init _kill _ln _ls _tester _mkdir _rm _sh _stressfs _usertests _wc _zombie _multithread 
+nmeta 59 (boot, super, log blocks 30 inode blocks 26, bitmap blocks 1) blocks 941 total 1000
+balloc: first 723 blocks have been allocated
+balloc: write bitmap block at sector 58
+qemu-system-i386 -nographic -drive file=fs.img,index=1,media=disk,format=raw -drive file=xv6.img,index=0,media=disk,format=raw -smp 1 -m 512 
+c[?7l[2J[0mSeaBIOS (version 1.15.0-1)
+
+
+iPXE (https://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+1FF8B4A0+1FECB4A0 CA00
+Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
+
+
+Booting from Hard Disk..xv6...
+cpu0: starting 0
+sb: size 1000 nblocks 941 ninodes 200 nlog 30 logstart 2 inodestart 32 bmap start 58
+init: starting sh
+$ tester
+tester
+#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester1#tester1#tester1#tester1#tester1#tester1#t
+
+test test_6 PASSED (1 of 1)
+ (Scheduler: Pririty Order: main > fn1)
+
+starting test_7
+
+**********************************************************************
+
+Test test_7
+Scheduler: Priority order: fn2 > main > fn1
+
+**********************************************************************
+Running xv6 user progam /home/cs537-1/tests/P5/ctests/test_7.c
+Trying to build project using make
+make xv6.img fs.img
+/tmp/tmpavs7ddzc/p/Makefile
+/tmp/tmpavs7ddzc/p/Makefile.test
+make: 'xv6.img' is up to date.
+make: 'fs.img' is up to date.
+make qemu-nox CPUS=1
+gcc -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -MD -ggdb -m32 -Werror -fno-omit-frame-pointer -fno-stack-protector -fno-pie -no-pie   -c -o tester.o tester.c
+ld -m    elf_i386 -N -e main -Ttext 0 -o _tester tester.o ulib.o usys.o printf.o umalloc.o
+objdump -S _tester > tester.asm
+objdump -t _tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > tester.sym
+./mkfs fs.img README _cat _echo _forktest _grep _init _kill _ln _ls _tester _mkdir _rm _sh _stressfs _usertests _wc _zombie _multithread 
+nmeta 59 (boot, super, log blocks 30 inode blocks 26, bitmap blocks 1) blocks 941 total 1000
+balloc: first 724 blocks have been allocated
+balloc: write bitmap block at sector 58
+qemu-system-i386 -nographic -drive file=fs.img,index=1,media=disk,format=raw -drive file=xv6.img,index=0,media=disk,format=raw -smp 1 -m 512 
+c[?7l[2J[0mSeaBIOS (version 1.15.0-1)
+
+
+iPXE (https://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+1FF8B4A0+1FECB4A0 CA00
+Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
+
+
+Booting from Hard Disk...
+xv6...
+cpu0: starting 0
+sb: size 1000 nblocks 941 ninodes 200 nlog 30 logstart 2 inodestart 32 bmap start 58
+init: starting sh
+$ tester
+tester
+#tester#tester#tester#tester1#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester1#tester1#tester1#tester1#tester1
+
+test test_7 PASSED (1 of 1)
+ (Scheduler: Priority order: fn2 > main > fn1)
+
+starting test_8
+
+**********************************************************************
+
+Test test_8
+Scheduler: Priority Order: fn2 > fn1 > main
+
+**********************************************************************
+Running xv6 user progam /home/cs537-1/tests/P5/ctests/test_8.c
+Trying to build project using make
+make xv6.img fs.img
+/tmp/tmpavs7ddzc/p/Makefile
+/tmp/tmpavs7ddzc/p/Makefile.test
+make: 'xv6.img' is up to date.
+make: 'fs.img' is up to date.
+make qemu-nox CPUS=1
+gcc -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -MD -ggdb -m32 -Werror -fno-omit-frame-pointer -fno-stack-protector -fno-pie -no-pie   -c -o tester.o tester.c
+ld -m    elf_i386 -N -e main -Ttext 0 -o _tester tester.o ulib.o usys.o printf.o umalloc.o
+objdump -S _tester > tester.asm
+objdump -t _tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > tester.sym
+./mkfs fs.img README _cat _echo _forktest _grep _init _kill _ln _ls _tester _mkdir _rm _sh _stressfs _usertests _wc _zombie _multithread 
+nmeta 59 (boot, super, log blocks 30 inode blocks 26, bitmap blocks 1) blocks 941 total 1000
+balloc: first 724 blocks have been allocated
+balloc: write bitmap block at sector 58
+qemu-system-i386 -nographic -drive file=fs.img,index=1,media=disk,format=raw -drive file=xv6.img,index=0,media=disk,format=raw -smp 1 -m 512 
+c[?7l[2J[0mSeaBIOS (version 1.15.0-1)
+
+
+iPXE (https://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+1FF8B4A0+1FECB4A0 CA00
+Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
+
+
+Booting from Hard Disk..xv6...
+cpu0: starting 0
+sb: size 1000 nblocks 941 ninodes 200 nlog 30 logstart 2 inodestart 32 bmap start 58
+init: starting sh
+$ tester
+tester
+#tester#tester#tester#tester1#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester$
+
+test test_8 PASSED (1 of 1)
+ (Scheduler: Priority Order: fn2 > fn1 > main)
+
+starting test_9
+
+**********************************************************************
+
+Test test_9
+Scheduler: fn1 thread priority > main thread
+
+**********************************************************************
+Running xv6 user progam /home/cs537-1/tests/P5/ctests/test_9.c
+Trying to build project using make
+make xv6.img fs.img
+/tmp/tmpavs7ddzc/p/Makefile
+/tmp/tmpavs7ddzc/p/Makefile.test
+make: 'xv6.img' is up to date.
+make: 'fs.img' is up to date.
+make qemu-nox CPUS=1
+gcc -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -MD -ggdb -m32 -Werror -fno-omit-frame-pointer -fno-stack-protector -fno-pie -no-pie   -c -o tester.o tester.c
+ld -m    elf_i386 -N -e main -Ttext 0 -o _tester tester.o ulib.o usys.o printf.o umalloc.o
+objdump -S _tester > tester.asm
+objdump -t _tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > tester.sym
+./mkfs fs.img README _cat _echo _forktest _grep _init _kill _ln _ls _tester _mkdir _rm _sh _stressfs _usertests _wc _zombie _multithread 
+nmeta 59 (boot, super, log blocks 30 inode blocks 26, bitmap blocks 1) blocks 941 total 1000
+balloc: first 723 blocks have been allocated
+balloc: write bitmap block at sector 58
+qemu-system-i386 -nographic -drive file=fs.img,index=1,media=disk,format=raw -drive file=xv6.img,index=0,media=disk,format=raw -smp 1 -m 512 
+c[?7l[2J[0mSeaBIOS (version 1.15.0-1)
+
+
+iPXE (https://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+1FF8B4A0+1FECB4A0 CA00
+Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
+
+
+Booting from Hard Disk..xv6...
+cpu0: starting 0
+sb: size 1000 nblocks 941 ninodes 200 nlog 30 logstart 2 inodestart 32 bmap start 58
+init: starting sh
+$ tester
+tester
+#tester#tester#tester#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester#tester#tester#tester#tester
+
+test test_9 PASSED (1 of 1)
+ (Scheduler: fn1 thread priority > main thread)
+
+starting test_10
+
+**********************************************************************
+
+Test test_10
+Priority inheritance
+
+**********************************************************************
+Running xv6 user progam /home/cs537-1/tests/P5/ctests/test_10.c
+Trying to build project using make
+make xv6.img fs.img
+/tmp/tmpavs7ddzc/p/Makefile
+/tmp/tmpavs7ddzc/p/Makefile.test
+make: 'xv6.img' is up to date.
+make: 'fs.img' is up to date.
+make qemu-nox CPUS=1
+gcc -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -MD -ggdb -m32 -Werror -fno-omit-frame-pointer -fno-stack-protector -fno-pie -no-pie   -c -o tester.o tester.c
+ld -m    elf_i386 -N -e main -Ttext 0 -o _tester tester.o ulib.o usys.o printf.o umalloc.o
+objdump -S _tester > tester.asm
+objdump -t _tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > tester.sym
+./mkfs fs.img README _cat _echo _forktest _grep _init _kill _ln _ls _tester _mkdir _rm _sh _stressfs _usertests _wc _zombie _multithread 
+nmeta 59 (boot, super, log blocks 30 inode blocks 26, bitmap blocks 1) blocks 941 total 1000
+balloc: first 725 blocks have been allocated
+balloc: write bitmap block at sector 58
+qemu-system-i386 -nographic -drive file=fs.img,index=1,media=disk,format=raw -drive file=xv6.img,index=0,media=disk,format=raw -smp 1 -m 512 
+c[?7l[2J[0mSeaBIOS (version 1.15.0-1)
+
+
+iPXE (https://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+1FF8B4A0+1FECB4A0 CA00
+Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
+
+
+Booting from Hard Disk..xv6...
+cpu0: starting 0
+sb: size 1000 nblocks 941 ninodes 200 nlog 30 logstart 2 inodestart 32 bmap start 58
+init: starting sh
+$ tester
+tester
+#tester#tester#tester1#tester2#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester#tester#tester#tester#tester#tester#
 
 test test_10 PASSED (1 of 1)
  (Priority inheritance)
@@ -592,8 +592,51 @@ Priority Restoration
 Running xv6 user progam /home/cs537-1/tests/P5/ctests/test_11.c
 Trying to build project using make
 make xv6.img fs.img
-/tmp/tmpxd9c52ej/p/Makefile
-/tmp/tmpxd9c52ej/p/Makefile.test
+/tmp/tmpavs7ddzc/p/Makefile
+/tmp/tmpavs7ddzc/p/Makefile.test
+make: 'xv6.img' is up to date.
+make: 'fs.img' is up to date.
+make qemu-nox CPUS=1
+gcc -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -MD -ggdb -m32 -Werror -fno-omit-frame-pointer -fno-stack-protector -fno-pie -no-pie   -c -o tester.o tester.c
+ld -m    elf_i386 -N -e main -Ttext 0 -o _tester tester.o ulib.o usys.o printf.o umalloc.o
+objdump -S _tester > tester.asm
+objdump -t _tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > tester.sym
+./mkfs fs.img README _cat _echo _forktest _grep _init _kill _ln _ls _tester _mkdir _rm _sh _stressfs _usertests _wc _zombie _multithread 
+nmeta 59 (boot, super, log blocks 30 inode blocks 26, bitmap blocks 1) blocks 941 total 1000
+balloc: first 726 blocks have been allocated
+balloc: write bitmap block at sector 58
+qemu-system-i386 -nographic -drive file=fs.img,index=1,media=disk,format=raw -drive file=xv6.img,index=0,media=disk,format=raw -smp 1 -m 512 
+c[?7l[2J[0mSeaBIOS (version 1.15.0-1)
+
+
+iPXE (https://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+1FF8B4A0+1FECB4A0 CA00
+Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
+
+
+Booting from Hard Disk..xv6...
+cpu0: starting 0
+sb: size 1000 nblocks 941 ninodes 200 nlog 30 logstart 2 inodestart 32 bmap start 58
+init: starting sh
+$ tester
+tester
+#tester#tester#tester1#tester2#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester2#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester#tester1#tester1#tester1#tester1#tester1
+
+test test_11 PASSED (1 of 1)
+ (Priority Restoration)
+
+starting test_12
+
+**********************************************************************
+
+Test test_12
+Multiple contention
+
+**********************************************************************
+Running xv6 user progam /home/cs537-1/tests/P5/ctests/test_12.c
+Trying to build project using make
+make xv6.img fs.img
+/tmp/tmpavs7ddzc/p/Makefile
+/tmp/tmpavs7ddzc/p/Makefile.test
 make: 'xv6.img' is up to date.
 make: 'fs.img' is up to date.
 make qemu-nox CPUS=1
@@ -619,11 +662,52 @@ sb: size 1000 nblocks 941 ninodes 200 nlog 30 logstart 2 inodestart 32 bmap star
 init: starting sh
 $ tester
 tester
-#tester#tester#tester1#tester2#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester#tester2#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester2#tester#tester#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester1#tester$ 
+#tester#tester#tester1#tester2#tester3#tester3#tester3#tester3#tester3#tester3#tester3#tester3#tester3#tester3#tester3#tester#tester#tester#tester#tester
 
-test test_11 FAILED (0 of 1)
+test test_12 PASSED (1 of 1)
+ (Multiple contention)
+
+**********************************************************************
+Summary:
+test build PASSED
+ (build xv6 using make)
+
+test test_1 PASSED (1 of 1)
+ (Lock: Shared increment of counter by fn1 and fn2)
+
+test test_2 PASSED (1 of 1)
+ (Deadlock)
+
+test test_3 PASSED (1 of 1)
+ (Lock: fn1, fn2, main all incrementing shared counter)
+
+test test_4 PASSED (1 of 1)
+ (Scheduler: Priority Order: main > fn1)
+
+test test_5 PASSED (1 of 1)
+ (Scheduler: Pririty Order: fn1 > main)
+
+test test_6 PASSED (1 of 1)
+ (Scheduler: Pririty Order: main > fn1)
+
+test test_7 PASSED (1 of 1)
+ (Scheduler: Priority order: fn2 > main > fn1)
+
+test test_8 PASSED (1 of 1)
+ (Scheduler: Priority Order: fn2 > fn1 > main)
+
+test test_9 PASSED (1 of 1)
+ (Scheduler: fn1 thread priority > main thread)
+
+test test_10 PASSED (1 of 1)
+ (Priority inheritance)
+
+test test_11 PASSED (1 of 1)
  (Priority Restoration)
- Tester terminates while no expected pattern is matched
 
-Skipped 1 tests.
-To keep testing after failing a test, use flag '-c' or '--continue'
+test test_12 PASSED (1 of 1)
+ (Multiple contention)
+
+Passed 13 of 13 tests.
+Overall 13 of 13
+Points 12 of 12

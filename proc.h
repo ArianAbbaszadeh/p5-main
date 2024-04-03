@@ -3,7 +3,7 @@
 
 #define MAXPROCNAMELEN 16
 #include "spinlock.h"
-
+#include "mutex.h"
 // Per-CPU state
 struct cpu {
   uchar apicid;                // Local APIC ID
@@ -55,6 +55,8 @@ struct proc {
   struct file *ofile[NOFILE];  // Open files
   struct inode *cwd;           // Current directory
   char name[MAXPROCNAMELEN];               // Process name (debugging)
+  mutex *holding[16];
+  mutex *owner;                //not holiint a lock should be (mutex*) -1
   int nice;
   int nclone;                  // Number of clone calls on this proc (for grading)
   int sleepticks;              // Number of ticks left the process should sleep for
